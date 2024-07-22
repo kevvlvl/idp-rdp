@@ -1,0 +1,11 @@
+action: new
+
+golden-path:
+  url: https://mouhahaha
+  path: gp/golang/gochi
+  branch: main
+
+code:
+  github:
+    repo: my-app-repo
+    branch: main

@@ -18,7 +18,7 @@ A rust CLI-based no-frills IDP that is GitOps opinionated and developer centric:
 | -c --contract-file | The path to your contract YAML file              |
 
 ```shell
-cargo run -- -d --contract-file contract.yaml
+cargo run -- -d --contract-file my-idp.yaml
 ```
 
 ### Contract file template
