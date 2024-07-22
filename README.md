@@ -1,5 +1,12 @@
 # Rusty Development Platform
 
+## TODO:
+
+- unit tests, test report coverage
+- validate input YAML values
+
+## Why?
+
 A rust CLI-based no-frills IDP that is GitOps opinionated and developer centric:
 
 1. What does the developer want?
@@ -27,21 +34,19 @@ cargo run -- -d --contract-file my-idp.yaml
 action: new
 
 golden-path:
-  url: url...
+  url: https://my-golden-path-repo...
   path: gp/golang/gochi
   branch: main
 
 code:
-  github:
-    repo: my-app-repo
-    branch: main
+  type: github
+  url: https://my-code-repo...
+  branch: main
 
 deploy:
+  podman:
   kubernetes:
-    cluster: url
   azure:
-    webapp:
-      ... azure info
     faas:
-      ... azure info
+    aks:
 ```
