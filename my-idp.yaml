@@ -1,11 +1,11 @@
 action: new
 
 golden-path:
-  url: https://mouhahaha
+  url: https://my-golden-path-repo...
   path: gp/golang/gochi
   branch: main
 
 code:
-  github:
-    repo: my-app-repo
-    branch: main
+  type: github
+  url: https://my-code-repo...
+  branch: main
