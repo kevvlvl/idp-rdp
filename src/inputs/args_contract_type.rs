@@ -1,5 +1,5 @@
 use std::str::FromStr;
-use serde::Deserialize;
+use serde::{Deserialize, Deserializer};
 use crate::inputs::args_contract_type::CodeTool::{GITHUB, GITLAB};
 
 #[derive(Debug, Deserialize)]
