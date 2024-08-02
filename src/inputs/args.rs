@@ -41,10 +41,11 @@ fn read_contract_file(file_path: &String) {
 mod test {
     use std::ffi::OsString;
     use std::str::FromStr;
+    use crate::inputs::args_contract_type::{Code, CodeTool, GoldenPath};
     use super::*;
 
     #[test]
-    fn test_read_cli_args() {
+    fn test_read_valid_cli_args() {
 
         let mut input_args = Vec::new();
         input_args.push(OsString::from_str("--contract-file").unwrap());
@@ -55,5 +56,29 @@ mod test {
 
         assert!(a.cf.len() > 0);
         assert!(a.dry_run);
+    }
+
+    #[test]
+    fn test_read_valid_new_contract() {
+
+        let valid_contract = Contract {
+            action: "new".to_string(),
+            golden_path: GoldenPath {
+                url: "https://test.local/gp".to_string(),
+                path: "./my_gp".to_string(),
+                branch: "main".to_string(),
+            },
+            code: Code {
+                c_type: CodeTool::GITHUB,
+                url: "http://test.local/code".to_string(),
+                branch: "main".to_string(),
+            },
+        };
+
+        let yaml = serde_yml::to_string(&valid_contract).unwrap();
+        assert!(yaml.len() > 0);
+
+        let deserialized: Contract = serde_yml::from_str(&yaml).unwrap();
+        assert_eq!(valid_contract, deserialized);
     }
 }

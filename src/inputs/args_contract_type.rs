@@ -1,15 +1,15 @@
 use std::str::FromStr;
-use serde::{Deserialize, Deserializer};
+use serde::{Deserialize, Serialize};
 use crate::inputs::args_contract_type::CodeTool::{GITHUB, GITLAB};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct GoldenPath {
     pub url: String,
     pub path: String,
     pub branch: String
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum CodeTool {
     GITHUB,
@@ -17,7 +17,7 @@ pub enum CodeTool {
     GITEA,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct Code {
 
     #[serde(rename = "type")]
@@ -26,7 +26,7 @@ pub struct Code {
     pub branch: String
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct Contract {
     pub action: String,
     #[serde(rename = "golden-path")]
