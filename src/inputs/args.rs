@@ -1,6 +1,7 @@
 use std::fs;
 use pico_args::Arguments;
 use crate::inputs::args_contract_type::Contract;
+use crate::inputs::contract_rules::validate_contract;
 
 pub struct Args {
     pub dry_run: bool,
@@ -10,7 +11,8 @@ pub struct Args {
 pub fn read_inputs(args: Arguments) {
 
     let parsed_args = read_cli_args(args);
-    read_contract_file(&parsed_args.cf);
+    let c: Contract = read_contract_file(&parsed_args.cf);
+    validate_contract(&c).expect("Failed to validate contract");
 }
 
 fn read_cli_args(mut args: Arguments) -> Args {
@@ -26,7 +28,7 @@ fn read_cli_args(mut args: Arguments) -> Args {
     return a;
 }
 
-fn read_contract_file(file_path: &String) {
+fn read_contract_file(file_path: &String) -> Contract {
 
     let cf_content: String = fs::read_to_string(file_path).expect("File Path not found. Unable to read contract file!");
 
@@ -35,6 +37,8 @@ fn read_contract_file(file_path: &String) {
     let _yaml: Contract = serde_yml::from_str(&cf_content).unwrap();
 
     println!("Contract deserialized");
+
+    _yaml
 }
 
 #[cfg(test)]
