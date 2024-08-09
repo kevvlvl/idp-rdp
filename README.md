@@ -2,8 +2,8 @@
 
 ## TODO:
 
-- unit tests, test report coverage
-- validate input YAML values
+- Git integration
+- k8s integration
 
 ## Why?
 
