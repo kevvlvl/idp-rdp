@@ -50,7 +50,7 @@ pub fn validate_contract(c: &Contract) -> Result<(), ContractValidationError> {
 
     let path_regex = Regex::new(r##"^(.+)/([^/]+)$"##).unwrap();
 
-    let Some(capt) = path_regex.captures(c.golden_path.path.as_str()) else {
+    let Some(_capt) = path_regex.captures(c.golden_path.path.as_str()) else {
         println!("{} is not a relative path!", c.golden_path.path);
         return Err(ContractValidationError::InvalidPropertyValues);
     };
@@ -104,9 +104,29 @@ mod test {
                 branch: "main".to_string(),
             },
         };
+
+        let r = validate_contract(&valid_update_contract);
+        assert_eq!(Ok(()), r);
     }
 
     #[test]
     fn test_unrecognized_action_contract() {
+
+        let invalid_contract = Contract {
+            action: "delete".to_string(),
+            golden_path: GoldenPath {
+                url: "https://test.local/gp".to_string(),
+                path: "./my_gp".to_string(),
+                branch: "main".to_string(),
+            },
+            code: Code {
+                c_type: CodeTool::GITHUB,
+                url: "http://test.local/code".to_string(),
+                branch: "main".to_string(),
+            },
+        };
+
+        let r = validate_contract(&invalid_contract);
+        assert_eq!(Err(ContractValidationError::InvalidPropertyValues), r);
     }
 }
