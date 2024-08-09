@@ -3,6 +3,7 @@ use url::Url;
 use regex::Regex;
 use crate::inputs::args_contract_type::Contract;
 
+#[derive(PartialEq)]
 pub enum ContractValidationError {
     MissingProperties,
     InvalidPropertyValues
@@ -40,7 +41,6 @@ pub fn validate_contract(c: &Contract) -> Result<(), ContractValidationError> {
 
         _ => {
             println!("Action not recognized: {}", c.action);
-
             return Err(ContractValidationError::InvalidPropertyValues)
         },
     }
@@ -60,4 +60,53 @@ pub fn validate_contract(c: &Contract) -> Result<(), ContractValidationError> {
     println!("DONE validate_contract - validated");
 
     Ok(())
+}
+
+#[cfg(test)]
+mod test {
+    use crate::inputs::args_contract_type::{Code, CodeTool, GoldenPath};
+    use super::*;
+
+    #[test]
+    fn test_valid_new_contract() {
+
+        let valid_new_contract = Contract {
+            action: "new".to_string(),
+            golden_path: GoldenPath {
+                url: "https://test.local/gp".to_string(),
+                path: "./my_gp".to_string(),
+                branch: "main".to_string(),
+            },
+            code: Code {
+                c_type: CodeTool::GITHUB,
+                url: "http://test.local/code".to_string(),
+                branch: "main".to_string(),
+            },
+        };
+
+        let r = validate_contract(&valid_new_contract);
+        assert_eq!(Ok(()), r);
+    }
+
+    #[test]
+    fn test_valid_update_contract() {
+
+        let valid_update_contract = Contract {
+            action: "update".to_string(),
+            golden_path: GoldenPath {
+                url: "https://test.local/gp".to_string(),
+                path: "./my_gp".to_string(),
+                branch: "main".to_string(),
+            },
+            code: Code {
+                c_type: CodeTool::GITHUB,
+                url: "http://test.local/code".to_string(),
+                branch: "main".to_string(),
+            },
+        };
+    }
+
+    #[test]
+    fn test_unrecognized_action_contract() {
+    }
 }
